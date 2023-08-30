@@ -1,0 +1,117 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| account            |
+| college            |
+| customer           |
+| dbms               |
+| employee           |
+| faculty            |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sachindb           |
+| student            |
+| student1           |
+| student2           |
+| students           |
+| sys                |
++--------------------+
+15 rows in set (0.00 sec)
+
+mysql> create database faculty1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use faculty1;
+Database changed
+mysql> create table faculty1(
+    -> facno int(10),
+    -> facname varchar(50));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> create table department(
+    -> deptno int(10),
+    -> deptname varchar(50));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> desc faculty1;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| facno   | int         | YES  |     | NULL    |       |
+| facname | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| deptno   | int         | YES  |     | NULL    |       |
+| deptname | varchar(50) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into faculty1
+    -> values(101,'dilli'),
+    -> values(102,'sai');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values(102,'sai')' at line 3
+mysql> insert into faculty1
+    -> values(101,'dilli');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from faculty;
+ERROR 1146 (42S02): Table 'faculty1.faculty' doesn't exist
+mysql> select * from faculty1;
++-------+---------+
+| facno | facname |
++-------+---------+
+|   101 | dilli   |
++-------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into faculty1
+    -> values(102,'sai');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from faculty1;
++-------+---------+
+| facno | facname |
++-------+---------+
+|   101 | dilli   |
+|   102 | sai     |
++-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> insert into department
+    -> values(21,'CSE');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into department
+    -> values(22,'ECE');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from department;
++--------+----------+
+| deptno | deptname |
++--------+----------+
+|     21 | CSE      |
+|     22 | ECE      |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select faculty1.facno,faculty1.facname,department.depno,department.depname from faculty1 cross join department;
+ERROR 1054 (42S22): Unknown column 'department.depno' in 'field list'
+mysql> select faculty1.facno,faculty1.facname,department.deptno,department.deptname from faculty1 cross join department;
++-------+---------+--------+----------+
+| facno | facname | deptno | deptname |
++-------+---------+--------+----------+
+|   102 | sai     |     21 | CSE      |
+|   101 | dilli   |     21 | CSE      |
+|   102 | sai     |     22 | ECE      |
+|   101 | dilli   |     22 | ECE      |
++-------+---------+--------+----------+
+4 rows in set (0.00 sec)
+
+mysql>
